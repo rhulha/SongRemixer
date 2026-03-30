@@ -13,6 +13,28 @@ let sel = null;          // selected marker
 
 let vStart = 0, vEnd = 1;
 
+let audioBuffer = null;
+let audioCtx = null;
+let playNode = null;
+let playStartSample = 0;  // sample index where playback began
+let playStartTime = 0;    // audioCtx.currentTime when playback began
+let playheadSample = null;
+let beatNodes = [];       // scheduled beat BufferSources for current playback
+
+const SOUND_FILES = { bass: 'data/bass.wav', hit: 'data/hit.wav', snare: 'data/snear.wav', hat: 'data/hat.wav' };
+const soundBuffers = {};
+
+async function loadSoundBuffers() {
+  const ac = new AudioContext();
+  for (const [name, path] of Object.entries(SOUND_FILES)) {
+    const resp = await fetch(path);
+    const ab = await ac.decodeAudioData(await resp.arrayBuffer());
+    soundBuffers[name] = ab;
+  }
+  ac.close();
+}
+loadSoundBuffers();
+
 const cv = $('cv');
 const cx = cv.getContext('2d');
 
@@ -26,6 +48,7 @@ ga('in-wav', 'change', async e => {
   $('status').textContent = 'loading…';
   const ac = new AudioContext();
   const ab = await ac.decodeAudioData(await f.arrayBuffer());
+  audioBuffer = ab;
   sampleRate = ab.sampleRate;
   const L = ab.getChannelData(0);
   if (ab.numberOfChannels > 1) {
@@ -39,6 +62,8 @@ ga('in-wav', 'change', async e => {
   vStart = 0;
   vEnd = totalSamples;
   peaks = buildPeaks(samples);
+  stopPlayback();
+  $('btn-play').disabled = false;
   $('status').textContent = `${f.name}  ${(totalSamples / sampleRate).toFixed(1)}s`;
   updatePanel();
   draw();
@@ -92,6 +117,16 @@ function draw() {
   cx.strokeStyle = '#151525';
   cx.lineWidth = 1;
   cx.beginPath(); cx.moveTo(0, mid); cx.lineTo(W, mid); cx.stroke();
+
+  if (playheadSample !== null) {
+    const px = s2x(playheadSample);
+    if (px >= 0 && px <= W) {
+      cx.strokeStyle = '#ffffff';
+      cx.lineWidth = 1.5;
+      cx.setLineDash([]);
+      cx.beginPath(); cx.moveTo(px, 0); cx.lineTo(px, H); cx.stroke();
+    }
+  }
 
   for (const m of markers) {
     const x = s2x(m.sample);
@@ -270,6 +305,73 @@ document.addEventListener('keydown', e => {
     sel = null; updatePanel(); draw();
   }
 });
+
+// ---- Playback ----
+
+function stopPlayback() {
+  if (playNode) {
+    playNode.onended = null;
+    try { playNode.stop(); } catch (_) {}
+    playNode = null;
+  }
+  for (const n of beatNodes) { try { n.stop(); } catch (_) {} }
+  beatNodes = [];
+  playheadSample = null;
+  $('btn-play').textContent = '▶ Play';
+  draw();
+}
+
+function startPlayback() {
+  if (!audioBuffer) return;
+  if (playNode) { stopPlayback(); return; }
+
+  audioCtx = new AudioContext();
+  playNode = audioCtx.createBufferSource();
+  playNode.buffer = audioBuffer;
+  playNode.connect(audioCtx.destination);
+
+  playStartSample = Math.max(0, Math.floor(vStart));
+  const offsetSec = playStartSample / sampleRate;
+  playStartTime = audioCtx.currentTime;
+
+  playNode.start(0, offsetSec);
+  $('btn-play').textContent = '■ Stop';
+
+  for (const m of markers) {
+    const markerSec = m.sample / sampleRate;
+    if (markerSec < offsetSec) continue;
+    const when = playStartTime + (markerSec - offsetSec);
+    for (const snd of m.sounds) {
+      const buf = soundBuffers[snd];
+      if (!buf) continue;
+      const n = audioCtx.createBufferSource();
+      n.buffer = buf;
+      n.connect(audioCtx.destination);
+      n.start(when);
+      beatNodes.push(n);
+    }
+  }
+
+  playNode.onended = () => {
+    playNode = null;
+    beatNodes = [];
+    playheadSample = null;
+    $('btn-play').textContent = '▶ Play';
+    draw();
+  };
+
+  function tick() {
+    if (!playNode) return;
+    const elapsed = audioCtx.currentTime - playStartTime;
+    playheadSample = playStartSample + elapsed * sampleRate;
+    if (playheadSample > totalSamples) { stopPlayback(); return; }
+    draw();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+ga('btn-play', 'click', startPlayback);
 
 // ---- Init ----
 

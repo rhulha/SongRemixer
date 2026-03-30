@@ -1,6 +1,7 @@
 import { WaveformEditor } from '../audio/waveform-editor.js';
 import { AudioPlayer } from '../audio/audio-player.js';
 import { SoundLibrary } from '../audio/sound-library.js';
+import { WavEncoder } from '../audio/wav-encoder.js';
 import { $, ga, SOUNDS, COLORS, SOUND_FILES } from './constants.js';
 import { createMarkerStorageController } from './marker-storage.js';
 import { createMarkerPanelController } from './marker-panel.js';
@@ -22,6 +23,7 @@ export function initApp() {
   ga('btn-del', 'click', () => editor.deleteSelected());
   ga('btn-save', 'click', markerStorage.saveMarkersOverwrite);
   ga('btn-load', 'click', markerStorage.onLoadClick);
+  ga('btn-export', 'click', () => exportMixedAudio(editor, sounds));
 
   ga('sample-edit', 'blur', panel.applyMarkerSampleEdit);
   ga('sample-edit', 'keydown', e => { if (e.key === 'Enter') $('sample-edit').blur(); });
@@ -62,6 +64,19 @@ export function initApp() {
     $('status').textContent = `sandman.wav  ${editor.duration.toFixed(1)}s`;
     $('btn-play').disabled = false;
   }).catch(() => {});
+}
+
+function exportMixedAudio(editor, sounds) {
+  if (!editor.audioBuffer) return;
+
+  const wavBuffer = WavEncoder.encode(editor.audioBuffer, sounds, editor.markers);
+  const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'sandman_mixed.wav';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 async function loadWavFromUrl(editor, url) {

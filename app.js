@@ -20,6 +20,33 @@ ga('btn-del',     'click', () => editor.deleteSelected());
 
 let currentSel = null;
 
+function buildCheckboxes(sel) {
+  const checks = $('sound-checks');
+  checks.innerHTML = '';
+  for (const snd of SOUNDS) {
+    const lbl = document.createElement('label');
+    lbl.className = 'sc';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = sel ? sel.sounds.has(snd) : false;
+    if (!sel) {
+      cb.onchange = () => {
+        if (!editor.loaded || editor.cursor === null) { cb.checked = false; return; }
+        editor.addMarkerAtCursor();
+        currentSel.sounds.add(snd);
+        editor.redraw();
+        buildCheckboxes(currentSel);
+      };
+    } else {
+      cb.onchange = () => { sel.sounds[cb.checked ? 'add' : 'delete'](snd); editor.redraw(); };
+    }
+    const dot = document.createElement('span');
+    dot.className = 'dot'; dot.style.background = COLORS[snd];
+    lbl.append(cb, dot, document.createTextNode(snd));
+    checks.append(lbl);
+  }
+}
+
 function applyMarkerSampleEdit() {
   if (!currentSel) return;
   const v = parseInt($('sample-edit').value);
@@ -73,38 +100,6 @@ editor.onCursor = sample => {
   $('panel-pos').textContent = `cursor  sample ${sample}  (${(sample / editor.sampleRate).toFixed(3)}s)`;
 };
 
-editor.onSelect = sel => {
-  currentSel = sel;
-  const checks = $('sound-checks');
-  checks.innerHTML = '';
-  $('btn-del').style.display = sel ? 'inline-block' : 'none';
-  if (!sel) {
-    $('panel-pos').style.display = '';
-    $('panel-sample-wrap').style.display = 'none';
-    if (editor.cursor !== null) {
-      $('panel-pos').textContent = `cursor  sample ${editor.cursor}  (${(editor.cursor / editor.sampleRate).toFixed(3)}s)`;
-    } else {
-      $('panel-pos').textContent = editor.loaded ? 'click waveform to set cursor' : 'load a wav to begin';
-    }
-    return;
-  }
-  $('panel-pos').style.display = 'none';
-  $('panel-sample-wrap').style.display = 'flex';
-  $('sample-edit').value = sel.sample;
-  $('panel-time').textContent = `(${(sel.sample / editor.sampleRate).toFixed(3)}s)`;
-  for (const snd of SOUNDS) {
-    const lbl = document.createElement('label');
-    lbl.className = 'sc';
-    const cb = document.createElement('input');
-    cb.type = 'checkbox'; cb.checked = sel.sounds.has(snd);
-    cb.onchange = () => { sel.sounds[cb.checked ? 'add' : 'delete'](snd); editor.redraw(); };
-    const dot = document.createElement('span');
-    dot.className = 'dot'; dot.style.background = COLORS[snd];
-    lbl.append(cb, dot, document.createTextNode(snd));
-    checks.append(lbl);
-  }
-};
-
 function refreshMarkerList() {
   const list = $('marker-list');
   list.innerHTML = '';
@@ -120,11 +115,26 @@ function refreshMarkerList() {
   }
 }
 
-const _origOnSelect = editor.onSelect;
 editor.onMarkersChange = refreshMarkerList;
 
 editor.onSelect = sel => {
-  if (_origOnSelect) _origOnSelect(sel);
+  currentSel = sel;
+  $('btn-del').style.display = sel ? 'inline-block' : 'none';
+  if (!sel) {
+    $('panel-pos').style.display = '';
+    $('panel-sample-wrap').style.display = 'none';
+    if (editor.cursor !== null) {
+      $('panel-pos').textContent = `cursor  sample ${editor.cursor}  (${(editor.cursor / editor.sampleRate).toFixed(3)}s)`;
+    } else {
+      $('panel-pos').textContent = editor.loaded ? 'click waveform to set cursor' : 'load a wav to begin';
+    }
+  } else {
+    $('panel-pos').style.display = 'none';
+    $('panel-sample-wrap').style.display = 'flex';
+    $('sample-edit').value = sel.sample;
+    $('panel-time').textContent = `(${(sel.sample / editor.sampleRate).toFixed(3)}s)`;
+  }
+  buildCheckboxes(sel);
   refreshMarkerList();
   if (sel) {
     const items = $('marker-list').querySelectorAll('.mli');
@@ -132,6 +142,8 @@ editor.onSelect = sel => {
     if (idx >= 0 && items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
   }
 };
+
+buildCheckboxes(null);
 
 new ResizeObserver(() => editor.resize()).observe($('canvas-wrap'));
 editor.attachScrollbar($('sb-track'));

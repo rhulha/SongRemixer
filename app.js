@@ -94,8 +94,45 @@ ga('sample-edit', 'input', () => {
     }
   }
 });
-ga('btn-save',    'click', () => editor.saveMarkers('sandman_markers.json'));
-ga('btn-load',    'click', () => $('in-json').click());
+
+let markerFileHandle = null;
+
+function markerDataJson() {
+  return JSON.stringify(editor.markers.map(m => ({ sample: m.sample, sounds: [...m.sounds] })), null, 2);
+}
+
+async function saveMarkersOverwrite() {
+  if (markerFileHandle) {
+    try {
+      const writable = await markerFileHandle.createWritable();
+      await writable.write(markerDataJson());
+      await writable.close();
+      return;
+    } catch (_) {
+      markerFileHandle = null;
+    }
+  }
+  editor.saveMarkers('sandman_markers.json');
+}
+
+ga('btn-save', 'click', saveMarkersOverwrite);
+ga('btn-load', 'click', async () => {
+  if (!window.showOpenFilePicker) {
+    $('in-json').click();
+    return;
+  }
+  try {
+    const [handle] = await window.showOpenFilePicker({
+      multiple: false,
+      types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+    });
+    const file = await handle.getFile();
+    await editor.loadMarkers(file);
+    markerFileHandle = handle;
+  } catch (e) {
+    if (e?.name !== 'AbortError') throw e;
+  }
+});
 
 async function loadWavFromUrl(url) {
   const ac = new AudioContext();
@@ -117,7 +154,13 @@ loadWavFromUrl('data/sandman.wav').then(() => {
   $('btn-play').disabled = false;
 }).catch(() => {});
 
-ga('in-json', 'change', async e => { await editor.loadMarkers(e.target.files[0]); e.target.value = ''; });
+ga('in-json', 'change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  await editor.loadMarkers(file);
+  markerFileHandle = null;
+  e.target.value = '';
+});
 
 document.addEventListener('keydown', e => {
   if (document.activeElement === $('sample-edit')) return;

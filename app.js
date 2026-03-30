@@ -29,6 +29,7 @@ function buildCheckboxes(sel) {
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.checked = sel ? sel.sounds.has(snd) : false;
+    cb.disabled = editor.selectedSet.size > 1;
     if (!sel) {
       cb.onchange = () => {
         if (!editor.loaded || editor.cursor === null) { cb.checked = false; return; }
@@ -105,12 +106,29 @@ function refreshMarkerList() {
   list.innerHTML = '';
   for (const m of editor.markers) {
     const item = document.createElement('div');
-    item.className = 'mli' + (m === editor.selected ? ' sel' : '');
+    item.className = 'mli' + (editor.selectedSet.has(m) ? ' sel' : '');
     item.dataset.marker = true;
     const t = (m.sample / editor.sampleRate).toFixed(3);
     const snds = [...m.sounds].join(' ');
     item.textContent = `${t}s` + (snds ? `  ${snds}` : '');
-    item.addEventListener('click', () => editor.jumpToMarker(m));
+    item.addEventListener('click', e => {
+      if (e.ctrlKey || e.metaKey) {
+        if (editor.selectedSet.has(m)) {
+          editor.selectedSet.delete(m);
+          if (editor.selected === m) currentSel = editor.selectedSet.size > 0 ? [...editor.selectedSet][0] : null;
+        } else {
+          editor.selectedSet.add(m);
+          currentSel = m;
+        }
+      } else {
+        editor.selectedSet.clear();
+        editor.selectedSet.add(m);
+        currentSel = m;
+        editor.jumpToMarker(m);
+      }
+      if (editor.onSelect) editor.onSelect(currentSel);
+      editor.redraw();
+    });
     list.append(item);
   }
 }
@@ -119,7 +137,7 @@ editor.onMarkersChange = refreshMarkerList;
 
 editor.onSelect = sel => {
   currentSel = sel;
-  $('btn-del').style.display = sel ? 'inline-block' : 'none';
+  $('btn-del').style.display = (sel || editor.selectedSet.size > 0) ? 'inline-block' : 'none';
   if (!sel) {
     $('panel-pos').style.display = '';
     $('panel-sample-wrap').style.display = 'none';

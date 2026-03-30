@@ -109,6 +109,7 @@ export class WaveformEditor {
     this._vEnd = 1;
     this._markers = [];
     this._sel = null;
+    this._selectedSet = new Set();
     this._audioBuffer = null;
     this._playhead = null;
     this._cursor = null;
@@ -126,6 +127,7 @@ export class WaveformEditor {
   get duration()    { return this._totalSamples / this._sampleRate; }
   get sampleRate()  { return this._sampleRate; }
   get selected()    { return this._sel; }
+  get selectedSet() { return this._selectedSet; }
   get markers()     { return this._markers; }
   get audioBuffer() { return this._audioBuffer; }
   get viewStart()   { return this._vStart; }
@@ -162,6 +164,7 @@ export class WaveformEditor {
   async loadMarkers(file) {
     this._markers = JSON.parse(await file.text()).map(d => ({ sample: d.sample, sounds: new Set(d.sounds) }));
     this._sel = null;
+    this._selectedSet.clear();
     if (this.onSelect) this.onSelect(null);
     if (this.onMarkersChange) this.onMarkersChange();
     this._draw();
@@ -176,8 +179,9 @@ export class WaveformEditor {
   }
 
   deleteSelected() {
-    if (!this._sel) return;
-    this._markers = this._markers.filter(m => m !== this._sel);
+    if (this._selectedSet.size === 0) return;
+    this._markers = this._markers.filter(m => !this._selectedSet.has(m));
+    this._selectedSet.clear();
     this._sel = null;
     if (this.onSelect) this.onSelect(null);
     if (this.onMarkersChange) this.onMarkersChange();
@@ -186,6 +190,7 @@ export class WaveformEditor {
 
   deselect() {
     this._sel = null;
+    this._selectedSet.clear();
     if (this.onSelect) this.onSelect(null);
     this._draw();
   }
@@ -195,6 +200,8 @@ export class WaveformEditor {
     const m = { sample: this._cursor, sounds: new Set() };
     this._markers.push(m);
     this._markers.sort((a, b) => a.sample - b.sample);
+    this._selectedSet.clear();
+    this._selectedSet.add(m);
     this._sel = m;
     if (this.onSelect) this.onSelect(m);
     if (this.onMarkersChange) this.onMarkersChange();
@@ -210,6 +217,8 @@ export class WaveformEditor {
     if (ve > this._totalSamples) { ve = this._totalSamples; vs = ve - range; }
     this._vStart = Math.max(0, vs);
     this._vEnd = Math.min(this._totalSamples, ve);
+    this._selectedSet.clear();
+    this._selectedSet.add(m);
     this._sel = m;
     this._cursor = m.sample;
     if (this.onSelect) this.onSelect(m);
@@ -316,7 +325,7 @@ export class WaveformEditor {
     for (const m of this._markers) {
       const x = this._s2x(m.sample);
       if (x < -20 || x > W + 20) continue;
-      const isSel = m === this._sel;
+      const isSel = this._selectedSet.has(m);
       cx.strokeStyle = isSel ? '#ffffff' : '#cccc44';
       cx.lineWidth = isSel ? 2 : 1;
       cx.setLineDash(isSel ? [] : [5, 4]);
@@ -365,20 +374,33 @@ export class WaveformEditor {
 
     this._cv.addEventListener('mouseup', e => {
       if (!this._samples) { this._drag = null; return; }
-      if (this._drag && !this._drag.moved) this._onClick(e.offsetX);
+      if (this._drag && !this._drag.moved) this._onClick(e.offsetX, e.ctrlKey || e.metaKey);
       this._drag = null;
     });
 
     this._cv.addEventListener('mouseleave', () => { this._drag = null; });
   }
 
-  _onClick(x) {
+  _onClick(x, ctrlKey) {
     const hit = this._markerAt(x);
     if (hit) {
-      this._sel = hit === this._sel ? null : hit;
+      if (ctrlKey) {
+        if (this._selectedSet.has(hit)) {
+          this._selectedSet.delete(hit);
+          if (this._sel === hit) this._sel = this._selectedSet.size > 0 ? [...this._selectedSet][0] : null;
+        } else {
+          this._selectedSet.add(hit);
+          if (!this._sel) this._sel = hit;
+        }
+      } else {
+        this._selectedSet.clear();
+        this._selectedSet.add(hit);
+        this._sel = hit;
+      }
       if (this.onSelect) this.onSelect(this._sel);
     } else {
       this._cursor = this._x2s(x);
+      this._selectedSet.clear();
       this._sel = null;
       if (this.onCursor) this.onCursor(this._cursor);
       if (this.onSelect) this.onSelect(null);

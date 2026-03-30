@@ -27,6 +27,8 @@ export class WaveformEditor {
     this.onSelect = null;
     this.onCursor = null;
     this.onMarkersChange = null;
+    this.onMarkerMoved = null;
+    this.isMoveAllEnabled = null;
     this._bindEvents();
   }
 
@@ -256,11 +258,55 @@ export class WaveformEditor {
 
     this._cv.addEventListener('mousedown', e => {
       if (e.button !== 0 || !this._samples) return;
-      this._drag = { x: e.offsetX, vs: this._vStart, ve: this._vEnd, moved: false };
+      const hit = this._markerAt(e.offsetX);
+      if (hit && !(e.ctrlKey || e.metaKey)) {
+        const moveAll = this.isMoveAllEnabled ? !!this.isMoveAllEnabled() : false;
+        const sorted = [...this._markers].sort((a, b) => a.sample - b.sample);
+        const idx = sorted.indexOf(hit);
+        const followers = moveAll && idx >= 0 ? sorted.slice(idx + 1) : [];
+        const followerSamples = followers.map(m => m.sample);
+        this._setSelection(hit, false);
+        this._drag = {
+          mode: 'marker',
+          x: e.offsetX,
+          moved: false,
+          marker: hit,
+          startSample: hit.sample,
+          moveAll,
+          followers,
+          followerSamples
+        };
+        return;
+      }
+      this._drag = { mode: 'pan', x: e.offsetX, vs: this._vStart, ve: this._vEnd, moved: false };
     });
 
     this._cv.addEventListener('mousemove', e => {
       if (!this._drag) return;
+      if (this._drag.mode === 'marker') {
+        let delta = this._x2s(e.offsetX) - this._drag.startSample;
+        const allStarts = [this._drag.startSample, ...this._drag.followerSamples];
+        const minStart = Math.min(...allStarts);
+        const maxStart = Math.max(...allStarts);
+        const minDelta = -minStart;
+        const maxDelta = (this._totalSamples - 1) - maxStart;
+        if (delta < minDelta) delta = minDelta;
+        if (delta > maxDelta) delta = maxDelta;
+        if (Math.abs(e.offsetX - this._drag.x) > 1 || delta !== 0) this._drag.moved = true;
+
+        this._drag.marker.sample = this._drag.startSample + delta;
+        if (this._drag.moveAll) {
+          for (let i = 0; i < this._drag.followers.length; i++) {
+            this._drag.followers[i].sample = this._drag.followerSamples[i] + delta;
+          }
+        }
+
+        this._markers.sort((a, b) => a.sample - b.sample);
+        this._draw();
+        if (this.onMarkersChange) this.onMarkersChange();
+        if (this.onMarkerMoved) this.onMarkerMoved(this._drag.marker);
+        return;
+      }
       if (Math.abs(e.offsetX - this._drag.x) > 4) this._drag.moved = true;
       if (!this._drag.moved) return;
       const range = this._drag.ve - this._drag.vs;
@@ -272,6 +318,10 @@ export class WaveformEditor {
 
     this._cv.addEventListener('mouseup', e => {
       if (!this._samples) { this._drag = null; return; }
+      if (this._drag && this._drag.mode === 'marker') {
+        this._drag = null;
+        return;
+      }
       if (this._drag && !this._drag.moved) this._onClick(e.offsetX, e.ctrlKey || e.metaKey);
       this._drag = null;
     });

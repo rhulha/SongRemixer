@@ -50,6 +50,8 @@ export function initApp() {
 
   editor.onMarkersChange = panel.refreshMarkerList;
   editor.onSelect = panel.onSelect;
+  editor.isMoveAllEnabled = panel.isMoveAllEnabled;
+  editor.onMarkerMoved = panel.onMarkerMoved;
   panel.buildCheckboxes(null);
 
   new ResizeObserver(() => editor.resize()).observe($('canvas-wrap'));

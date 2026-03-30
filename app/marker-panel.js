@@ -1,6 +1,10 @@
 export function createMarkerPanelController({ $, editor, sounds, colors }) {
   let currentSel = null;
 
+  function isMoveAllEnabled() {
+    return !!$('move-all').checked;
+  }
+
   function buildCheckboxes(sel) {
     const checks = $('sound-checks');
     checks.innerHTML = '';
@@ -134,11 +138,21 @@ export function createMarkerPanelController({ $, editor, sounds, colors }) {
     }
   }
 
+  function onMarkerMoved(marker) {
+    if (currentSel === marker) {
+      $('sample-edit').value = marker.sample;
+      $('panel-time').textContent = `(${(marker.sample / editor.sampleRate).toFixed(3)}s)`;
+    }
+    refreshMarkerList();
+  }
+
   return {
     buildCheckboxes,
     refreshMarkerList,
     applyMarkerSampleEdit,
     onSampleEditInput,
-    onSelect
+    onSelect,
+    isMoveAllEnabled,
+    onMarkerMoved
   };
 }

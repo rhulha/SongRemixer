@@ -77,5 +77,33 @@ editor.onSelect = sel => {
   }
 };
 
+function refreshMarkerList() {
+  const list = $('marker-list');
+  list.innerHTML = '';
+  for (const m of editor.markers) {
+    const item = document.createElement('div');
+    item.className = 'mli' + (m === editor.selected ? ' sel' : '');
+    item.dataset.marker = true;
+    const t = (m.sample / editor.sampleRate).toFixed(3);
+    const snds = [...m.sounds].join(' ');
+    item.textContent = `${t}s` + (snds ? `  ${snds}` : '');
+    item.addEventListener('click', () => editor.jumpToMarker(m));
+    list.append(item);
+  }
+}
+
+const _origOnSelect = editor.onSelect;
+editor.onMarkersChange = refreshMarkerList;
+
+editor.onSelect = sel => {
+  if (_origOnSelect) _origOnSelect(sel);
+  refreshMarkerList();
+  if (sel) {
+    const items = $('marker-list').querySelectorAll('.mli');
+    const idx = editor.markers.indexOf(sel);
+    if (idx >= 0 && items[idx]) items[idx].scrollIntoView({ block: 'nearest' });
+  }
+};
+
 new ResizeObserver(() => editor.resize()).observe($('canvas-wrap'));
 editor.attachScrollbar($('sb-track'));

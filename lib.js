@@ -118,6 +118,7 @@ export class WaveformEditor {
     this._sbDrag = null;
     this.onSelect = null;
     this.onCursor = null;
+    this.onMarkersChange = null;
     this._bindEvents();
   }
 
@@ -162,6 +163,7 @@ export class WaveformEditor {
     this._markers = JSON.parse(await file.text()).map(d => ({ sample: d.sample, sounds: new Set(d.sounds) }));
     this._sel = null;
     if (this.onSelect) this.onSelect(null);
+    if (this.onMarkersChange) this.onMarkersChange();
     this._draw();
   }
 
@@ -178,6 +180,7 @@ export class WaveformEditor {
     this._markers = this._markers.filter(m => m !== this._sel);
     this._sel = null;
     if (this.onSelect) this.onSelect(null);
+    if (this.onMarkersChange) this.onMarkersChange();
     this._draw();
   }
 
@@ -193,6 +196,22 @@ export class WaveformEditor {
     this._markers.push(m);
     this._markers.sort((a, b) => a.sample - b.sample);
     this._sel = m;
+    if (this.onSelect) this.onSelect(m);
+    if (this.onMarkersChange) this.onMarkersChange();
+    this._draw();
+  }
+
+  jumpToMarker(m) {
+    const range = this._vEnd - this._vStart;
+    const half = range / 2;
+    let vs = m.sample - half;
+    if (vs < 0) vs = 0;
+    let ve = vs + range;
+    if (ve > this._totalSamples) { ve = this._totalSamples; vs = ve - range; }
+    this._vStart = Math.max(0, vs);
+    this._vEnd = Math.min(this._totalSamples, ve);
+    this._sel = m;
+    this._cursor = m.sample;
     if (this.onSelect) this.onSelect(m);
     this._draw();
   }

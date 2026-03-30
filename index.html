@@ -37,8 +37,31 @@ button {
 button:hover { background: #2a2a50; }
 #sep { width: 1px; background: #2a2a4a; height: 18px; margin: 0 2px; }
 #status { color: #555; margin-left: 8px; }
-#canvas-wrap { flex: 1; overflow: hidden; }
-canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
+#canvas-wrap { flex: 1; overflow: hidden; display: flex; }
+canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair; }
+#marker-list {
+  width: 148px;
+  flex-shrink: 0;
+  background: #0a0a18;
+  border-left: 1px solid #252545;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 11px;
+}
+#marker-list::-webkit-scrollbar { width: 6px; }
+#marker-list::-webkit-scrollbar-track { background: #080810; }
+#marker-list::-webkit-scrollbar-thumb { background: #2a2a50; border-radius: 3px; }
+.mli {
+  padding: 4px 7px;
+  cursor: pointer;
+  border-bottom: 1px solid #151528;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mli:hover { background: #14142a; color: #bbb; }
+.mli.sel { background: #1e1e3a; color: #fff; }
 #sb-track { height: 12px; background: #080810; border-top: 1px solid #252545; position: relative; flex-shrink: 0; }
 #sb-thumb { position: absolute; top: 1px; bottom: 1px; background: #2a2a50; border-radius: 2px; cursor: grab; min-width: 16px; }
 #sb-thumb:active { cursor: grabbing; background: #383868; }
@@ -75,6 +98,7 @@ canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
 </div>
 <div id="canvas-wrap">
   <canvas id="cv"></canvas>
+  <div id="marker-list"></div>
 </div>
 <div id="sb-track"><div id="sb-thumb"></div></div>
 <div id="panel">

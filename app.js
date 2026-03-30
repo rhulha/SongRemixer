@@ -52,7 +52,16 @@ function applyMarkerSampleEdit() {
   if (!currentSel) return;
   const v = parseInt($('sample-edit').value);
   if (isNaN(v) || v < 0) { $('sample-edit').value = currentSel.sample; return; }
+  const delta = v - currentSel.sample;
   currentSel.sample = v;
+
+  if ($('move-all').checked) {
+    const idx = editor.markers.indexOf(currentSel);
+    for (let i = idx + 1; i < editor.markers.length; i++) {
+      editor.markers[i].sample += delta;
+    }
+  }
+
   editor.markers.sort((a, b) => a.sample - b.sample);
   editor.redraw();
   refreshMarkerList();
@@ -63,7 +72,27 @@ ga('sample-edit', 'blur', applyMarkerSampleEdit);
 ga('sample-edit', 'keydown', e => { if (e.key === 'Enter') $('sample-edit').blur(); });
 ga('sample-edit', 'input', () => {
   const v = parseInt($('sample-edit').value);
-  if (!isNaN(v) && v >= 0) $('panel-time').textContent = `(${(v / editor.sampleRate).toFixed(3)}s)`;
+  if (!isNaN(v) && v >= 0) {
+    $('panel-time').textContent = `(${(v / editor.sampleRate).toFixed(3)}s)`;
+    if (currentSel) {
+      const delta = v - currentSel.sample;
+      currentSel.sample = v;
+      if ($('move-all').checked) {
+        const idx = editor.markers.indexOf(currentSel);
+        for (let i = idx + 1; i < editor.markers.length; i++) {
+          editor.markers[i].sample += delta;
+        }
+      }
+      const list = $('marker-list');
+      const items = list.querySelectorAll('.mli');
+      for (let i = 0; i < items.length && i < editor.markers.length; i++) {
+        const m = editor.markers[i];
+        const t = (m.sample / editor.sampleRate).toFixed(3);
+        const snds = [...m.sounds].join(' ');
+        items[i].textContent = `${t}s` + (snds ? `  ${snds}` : '');
+      }
+    }
+  }
 });
 ga('btn-save',    'click', () => editor.saveMarkers('sandman_markers.json'));
 ga('btn-load',    'click', () => $('in-json').click());
@@ -138,6 +167,8 @@ editor.onMarkersChange = refreshMarkerList;
 editor.onSelect = sel => {
   currentSel = sel;
   $('btn-del').style.display = (sel || editor.selectedSet.size > 0) ? 'inline-block' : 'none';
+  $('move-all-wrap').style.display = sel ? 'flex' : 'none';
+  $('move-all').checked = false;
   if (!sel) {
     $('panel-pos').style.display = '';
     $('panel-sample-wrap').style.display = 'none';

@@ -93,7 +93,9 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
 .sc { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 .sc input { cursor: pointer; }
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-#btn-del { margin-left: auto; color: #c04040; border-color: #6a2020; }
+#move-all-wrap { display: none; align-items: center; gap: 6px; color: #666; }
+#move-all-wrap input { cursor: pointer; }
+#btn-del { color: #c04040; border-color: #6a2020; }
 #btn-del:hover { background: #2a1010; }
 </style>
 </head>
@@ -115,10 +117,11 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
 </div>
 <div id="sb-track"><div id="sb-thumb"></div></div>
 <div id="panel">
+  <label id="move-all-wrap"><input id="move-all" type="checkbox"> move all</label>
   <span id="panel-pos">load a wav to begin</span>
   <span id="panel-sample-wrap">sample <input id="sample-edit" type="number" min="0" step="1"> <span id="panel-time"></span></span>
   <div id="sound-checks"></div>
-  <button id="btn-del" style="display:none">Delete</button>
+  <button id="btn-del" style="display:none; margin-left: auto;">Delete</button>
 </div>
 <script type="module" src="app.js"></script>
 </body>

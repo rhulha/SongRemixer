@@ -111,8 +111,13 @@ export class WaveformEditor {
     this._sel = null;
     this._audioBuffer = null;
     this._playhead = null;
+    this._cursor = null;
     this._drag = null;
+    this._sbTrack = null;
+    this._sbThumb = null;
+    this._sbDrag = null;
     this.onSelect = null;
+    this.onCursor = null;
     this._bindEvents();
   }
 
@@ -123,6 +128,7 @@ export class WaveformEditor {
   get markers()     { return this._markers; }
   get audioBuffer() { return this._audioBuffer; }
   get viewStart()   { return this._vStart; }
+  get cursor()      { return this._cursor; }
   set playhead(v)   { this._playhead = v; }
 
   async loadAudioBuffer(ab) {
@@ -141,6 +147,7 @@ export class WaveformEditor {
     this._vEnd = this._totalSamples;
     this._peaks = _buildPeaks(this._samples);
     this._playhead = null;
+    this._cursor = null;
     this._draw();
   }
 
@@ -180,6 +187,16 @@ export class WaveformEditor {
     this._draw();
   }
 
+  addMarkerAtCursor() {
+    if (this._cursor === null) return;
+    const m = { sample: this._cursor, sounds: new Set() };
+    this._markers.push(m);
+    this._markers.sort((a, b) => a.sample - b.sample);
+    this._sel = m;
+    if (this.onSelect) this.onSelect(m);
+    this._draw();
+  }
+
   resize() {
     this._cv.width = this._cv.offsetWidth;
     this._cv.height = this._cv.offsetHeight;
@@ -187,6 +204,47 @@ export class WaveformEditor {
   }
 
   redraw() { this._draw(); }
+
+  attachScrollbar(track) {
+    this._sbTrack = track;
+    this._sbThumb = track.querySelector('div');
+
+    track.addEventListener('mousedown', e => {
+      if (e.target === this._sbThumb || !this._samples) return;
+      const rect = track.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      const range = this._vEnd - this._vStart;
+      this._vStart = Math.max(0, Math.min(this._totalSamples - range, ratio * this._totalSamples - range / 2));
+      this._vEnd = this._vStart + range;
+      this._draw();
+    });
+
+    this._sbThumb.addEventListener('mousedown', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      this._sbDrag = { x: e.clientX, vStart: this._vStart, trackW: this._sbTrack.getBoundingClientRect().width };
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!this._sbDrag) return;
+      const dx = e.clientX - this._sbDrag.x;
+      const range = this._vEnd - this._vStart;
+      const newStart = Math.max(0, Math.min(this._totalSamples - range,
+        this._sbDrag.vStart + (dx / this._sbDrag.trackW) * this._totalSamples));
+      this._vStart = newStart;
+      this._vEnd = newStart + range;
+      this._draw();
+    });
+
+    document.addEventListener('mouseup', () => { this._sbDrag = null; });
+  }
+
+  _updateScrollbar() {
+    if (!this._sbThumb || !this._totalSamples) return;
+    const ratio = (this._vEnd - this._vStart) / this._totalSamples;
+    this._sbThumb.style.width = Math.max(0.02, ratio) * 100 + '%';
+    this._sbThumb.style.left = (this._vStart / this._totalSamples) * 100 + '%';
+  }
 
   _s2x(s) { return (s - this._vStart) / (this._vEnd - this._vStart) * this._cv.width; }
   _x2s(x) { return Math.round(this._vStart + (x / this._cv.width) * (this._vEnd - this._vStart)); }
@@ -216,6 +274,16 @@ export class WaveformEditor {
     cx.lineWidth = 1;
     cx.beginPath(); cx.moveTo(0, mid); cx.lineTo(W, mid); cx.stroke();
 
+    if (this._cursor !== null) {
+      const cx2 = this._s2x(this._cursor);
+      if (cx2 >= 0 && cx2 <= W) {
+        cx.strokeStyle = '#4af';
+        cx.lineWidth = 1.5;
+        cx.setLineDash([]);
+        cx.beginPath(); cx.moveTo(cx2, 0); cx.lineTo(cx2, H); cx.stroke();
+      }
+    }
+
     if (this._playhead !== null) {
       const px = this._s2x(this._playhead);
       if (px >= 0 && px <= W) {
@@ -244,6 +312,8 @@ export class WaveformEditor {
         }
       }
     }
+
+    this._updateScrollbar();
   }
 
   _bindEvents() {
@@ -287,13 +357,13 @@ export class WaveformEditor {
     const hit = this._markerAt(x);
     if (hit) {
       this._sel = hit === this._sel ? null : hit;
+      if (this.onSelect) this.onSelect(this._sel);
     } else {
-      const m = { sample: this._x2s(x), sounds: new Set() };
-      this._markers.push(m);
-      this._markers.sort((a, b) => a.sample - b.sample);
-      this._sel = m;
+      this._cursor = this._x2s(x);
+      this._sel = null;
+      if (this.onCursor) this.onCursor(this._cursor);
+      if (this.onSelect) this.onSelect(null);
     }
-    if (this.onSelect) this.onSelect(this._sel);
     this._draw();
   }
 

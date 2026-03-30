@@ -13,11 +13,12 @@ const player = new AudioPlayer(sounds, $('btn-play'));
 player.onTick = s => { editor.playhead = s; editor.redraw(); };
 player.onEnd  = () => { editor.playhead = null; editor.redraw(); };
 
-ga('btn-wav',  'click',  () => $('in-wav').click());
-ga('btn-play', 'click',  () => player.toggle(editor.audioBuffer, editor.markers, editor.viewStart, editor.sampleRate));
-ga('btn-del',  'click',  () => editor.deleteSelected());
-ga('btn-save', 'click',  () => editor.saveMarkers('sandman_markers.json'));
-ga('btn-load', 'click',  () => $('in-json').click());
+ga('btn-wav',     'click', () => $('in-wav').click());
+ga('btn-play',    'click', () => player.toggle(editor.audioBuffer, editor.markers, editor.cursor ?? 0, editor.sampleRate));
+ga('btn-add',     'click', () => editor.addMarkerAtCursor());
+ga('btn-del',     'click', () => editor.deleteSelected());
+ga('btn-save',    'click', () => editor.saveMarkers('sandman_markers.json'));
+ga('btn-load',    'click', () => $('in-json').click());
 
 async function loadWavFromUrl(url) {
   const ac = new AudioContext();
@@ -46,12 +47,20 @@ document.addEventListener('keydown', e => {
   if ((e.key === 'Delete' || e.key === 'Backspace') && editor.selected) editor.deleteSelected();
 });
 
+editor.onCursor = sample => {
+  $('panel-pos').textContent = `cursor  sample ${sample}  (${(sample / editor.sampleRate).toFixed(3)}s)`;
+};
+
 editor.onSelect = sel => {
   const checks = $('sound-checks');
   checks.innerHTML = '';
   $('btn-del').style.display = sel ? 'inline-block' : 'none';
   if (!sel) {
-    $('panel-pos').textContent = editor.loaded ? 'click waveform to place a marker' : 'load a wav to begin';
+    if (editor.cursor !== null) {
+      $('panel-pos').textContent = `cursor  sample ${editor.cursor}  (${(editor.cursor / editor.sampleRate).toFixed(3)}s)`;
+    } else {
+      $('panel-pos').textContent = editor.loaded ? 'click waveform to set cursor' : 'load a wav to begin';
+    }
     return;
   }
   $('panel-pos').textContent = `sample ${sel.sample}  (${(sel.sample / editor.sampleRate).toFixed(3)}s)`;
@@ -69,3 +78,4 @@ editor.onSelect = sel => {
 };
 
 new ResizeObserver(() => editor.resize()).observe($('canvas-wrap'));
+editor.attachScrollbar($('sb-track'));

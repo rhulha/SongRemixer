@@ -114,7 +114,6 @@ export function createMarkerPanelController({ $, editor, sounds, colors }) {
     currentSel = sel;
     $('btn-del').style.display = (sel || editor.selectedSet.size > 0) ? 'inline-block' : 'none';
     $('move-all-wrap').style.display = sel ? 'flex' : 'none';
-    $('move-all').checked = false;
     if (!sel) {
       $('panel-pos').style.display = '';
       $('panel-sample-wrap').style.display = 'none';

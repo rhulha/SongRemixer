@@ -125,9 +125,7 @@ export class WaveformEditor {
   get viewStart()   { return this._vStart; }
   set playhead(v)   { this._playhead = v; }
 
-  async loadFile(file) {
-    const ac = new AudioContext();
-    const ab = await ac.decodeAudioData(await file.arrayBuffer());
+  async loadAudioBuffer(ab) {
     this._audioBuffer = ab;
     this._sampleRate = ab.sampleRate;
     const L = ab.getChannelData(0);
@@ -144,6 +142,13 @@ export class WaveformEditor {
     this._peaks = _buildPeaks(this._samples);
     this._playhead = null;
     this._draw();
+  }
+
+  async loadFile(file) {
+    const ac = new AudioContext();
+    const ab = await ac.decodeAudioData(await file.arrayBuffer());
+    ac.close();
+    await this.loadAudioBuffer(ab);
   }
 
   async loadMarkers(file) {

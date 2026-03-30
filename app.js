@@ -19,6 +19,13 @@ ga('btn-del',  'click',  () => editor.deleteSelected());
 ga('btn-save', 'click',  () => editor.saveMarkers('sandman_markers.json'));
 ga('btn-load', 'click',  () => $('in-json').click());
 
+async function loadWavFromUrl(url) {
+  const ac = new AudioContext();
+  const ab = await ac.decodeAudioData(await fetch(url).then(r => r.arrayBuffer()));
+  await ac.close();
+  await editor.loadAudioBuffer(ab);
+}
+
 ga('in-wav', 'change', async e => {
   const f = e.target.files[0]; if (!f) return;
   await editor.loadFile(f);
@@ -26,6 +33,11 @@ ga('in-wav', 'change', async e => {
   $('btn-play').disabled = false;
   e.target.value = '';
 });
+
+loadWavFromUrl('data/sandman.wav').then(() => {
+  $('status').textContent = `sandman.wav  ${editor.duration.toFixed(1)}s`;
+  $('btn-play').disabled = false;
+}).catch(() => {});
 
 ga('in-json', 'change', async e => { await editor.loadMarkers(e.target.files[0]); e.target.value = ''; });
 

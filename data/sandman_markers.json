@@ -58,9 +58,22 @@
     ]
   },
   {
+    "sample": 599000,
+    "sounds": [
+      "hit"
+    ]
+  },
+  {
     "sample": 612315,
     "sounds": [
-      "bass"
+      "bass",
+      "hit"
+    ]
+  },
+  {
+    "sample": 626466,
+    "sounds": [
+      "hit"
     ]
   },
   {
@@ -507,117 +520,84 @@
   },
   {
     "sample": 1371932,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1385072,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 1398694,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1405506,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1412317,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1419129,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1425940,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1439563,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 1453185,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1466808,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1480431,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1494054,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 1507676,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 1514488,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1521299,
     "sounds": [
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 1528111,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1534922,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 1548545,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
@@ -1026,8 +1006,8 @@
   {
     "sample": 2234472,
     "sounds": [
-      "snare",
-      "hit"
+      "hit",
+      "bass"
     ]
   },
   {
@@ -1038,27 +1018,23 @@
   },
   {
     "sample": 2254448,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2261106,
     "sounds": [
-      "hit"
+      "hit",
+      "bass"
     ]
   },
   {
     "sample": 2267765,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2274423,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1102,9 +1078,7 @@
   },
   {
     "sample": 2358648,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2365406,
@@ -1114,15 +1088,12 @@
   },
   {
     "sample": 2372165,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2378922,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1141,8 +1112,7 @@
   {
     "sample": 2418457,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1166,9 +1136,7 @@
   },
   {
     "sample": 2464462,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2471124,
@@ -1178,9 +1146,7 @@
   },
   {
     "sample": 2477786,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2484448,
@@ -1230,9 +1196,7 @@
   },
   {
     "sample": 2570235,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2576893,
@@ -1242,9 +1206,7 @@
   },
   {
     "sample": 2583552,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 2590210,
@@ -1782,7 +1744,7 @@
     "sample": 3521885,
     "sounds": [
       "hit",
-      "bass"
+      "snare"
     ]
   },
   {
@@ -1806,27 +1768,23 @@
   },
   {
     "sample": 3568496,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 3575154,
     "sounds": [
-      "hit"
+      "hit",
+      "bass"
     ]
   },
   {
     "sample": 3581813,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 3588471,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2286,35 +2244,31 @@
   },
   {
     "sample": 4438131,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4540942,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 4643752,
+    "sounds": []
+  },
+  {
+    "sample": 4720999,
     "sounds": [
-      "hit"
+      "bass"
     ]
   },
   {
     "sample": 4746563,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 4759711,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4766285,
@@ -2324,9 +2278,7 @@
   },
   {
     "sample": 4772859,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4779434,
@@ -2337,48 +2289,38 @@
   {
     "sample": 4786007,
     "sounds": [
-      "hit",
       "bass"
     ]
   },
   {
     "sample": 4799156,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 4812134,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4825112,
     "sounds": [
-      "hit",
       "bass"
     ]
   },
   {
     "sample": 4838090,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4851068,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 4864385,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4871044,
@@ -2388,9 +2330,7 @@
   },
   {
     "sample": 4877702,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4884361,
@@ -2401,27 +2341,22 @@
   {
     "sample": 4891019,
     "sounds": [
-      "hit",
       "bass"
     ]
   },
   {
     "sample": 4904337,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 4917045,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 4929753,
     "sounds": [
-      "hit",
       "bass"
     ]
   },
@@ -2434,8 +2369,7 @@
   {
     "sample": 4955170,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
@@ -2759,6 +2693,18 @@
     ]
   },
   {
+    "sample": 5481256,
+    "sounds": [
+      "hit"
+    ]
+  },
+  {
+    "sample": 5492701,
+    "sounds": [
+      "bass"
+    ]
+  },
+  {
     "sample": 5520331,
     "sounds": [
       "hit"
@@ -2786,6 +2732,12 @@
     "sample": 5623941,
     "sounds": [
       "hit",
+      "bass"
+    ]
+  },
+  {
+    "sample": 5649645,
+    "sounds": [
       "bass"
     ]
   },
@@ -2818,7 +2770,6 @@
   {
     "sample": 5729016,
     "sounds": [
-      "snare",
       "hit"
     ]
   },
@@ -2830,27 +2781,23 @@
   },
   {
     "sample": 5748633,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 5755172,
     "sounds": [
-      "hit"
+      "hit",
+      "bass"
     ]
   },
   {
     "sample": 5761711,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 5768250,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -3189,8 +3136,7 @@
   {
     "sample": 6442872,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -3214,9 +3160,7 @@
   },
   {
     "sample": 6612951,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6619201,
@@ -3226,15 +3170,12 @@
   },
   {
     "sample": 6625451,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6631702,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -3253,8 +3194,7 @@
   {
     "sample": 6668450,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -3278,9 +3218,7 @@
   },
   {
     "sample": 6711929,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6718339,
@@ -3290,9 +3228,7 @@
   },
   {
     "sample": 6724750,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6731160,
@@ -3310,46 +3246,41 @@
   },
   {
     "sample": 6756523,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6769066,
     "sounds": [
-      "hit",
       "bass"
     ]
   },
   {
     "sample": 6781609,
     "sounds": [
-      "hit"
+      "bass"
     ]
   },
   {
     "sample": 6794152,
     "sounds": [
       "snare",
-      "hit"
+      "bass"
     ]
   },
   {
     "sample": 6806585,
     "sounds": [
-      "hit"
-    ]
-  },
-  {
-    "sample": 6812802,
-    "sounds": [
       "bass"
     ]
   },
   {
+    "sample": 6812802,
+    "sounds": []
+  },
+  {
     "sample": 6819019,
     "sounds": [
-      "hit"
+      "bass"
     ]
   },
   {
@@ -3360,80 +3291,52 @@
   },
   {
     "sample": 6831452,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6843886,
     "sounds": [
-      "snare",
-      "hit"
+      "snare"
     ]
   },
   {
     "sample": 6856407,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6868928,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6881449,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6893970,
-    "sounds": [
-      "snare",
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6907287,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6913946,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6920604,
-    "sounds": [
-      "hit"
-    ]
+    "sounds": []
   },
   {
     "sample": 6927263,
-    "sounds": [
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6933921,
-    "sounds": [
-      "hit",
-      "bass"
-    ]
+    "sounds": []
   },
   {
     "sample": 6947239,
-    "sounds": [
-      "snare",
-      "hit"
-    ]
+    "sounds": []
   }
 ]

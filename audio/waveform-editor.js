@@ -1,103 +1,6 @@
-const CHUNK = 512;
+import { buildPeaks, peaksMinMax } from './waveform-peaks.js';
+
 const HIT_PX = 8;
-
-export class SoundLibrary {
-  constructor(files) {
-    this._buffers = {};
-    this._ready = this._load(files);
-  }
-
-  async _load(files) {
-    const ac = new AudioContext();
-    for (const [name, path] of Object.entries(files)) {
-      const buf = await fetch(path).then(r => r.arrayBuffer());
-      this._buffers[name] = await ac.decodeAudioData(buf);
-    }
-    ac.close();
-  }
-
-  get(name) { return this._buffers[name]; }
-}
-
-export class AudioPlayer {
-  constructor(sounds, playBtn) {
-    this._sounds = sounds;
-    this._btn = playBtn;
-    this._ctx = null;
-    this._node = null;
-    this._beatNodes = [];
-    this.onTick = null;
-    this.onEnd = null;
-  }
-
-  get playing() { return !!this._node; }
-
-  toggle(audioBuffer, markers, viewStart, sampleRate) {
-    if (this._node) { this.stop(); return; }
-    this._start(audioBuffer, markers, viewStart, sampleRate);
-  }
-
-  stop() {
-    if (this._node) {
-      this._node.onended = null;
-      try { this._node.stop(); } catch (_) {}
-      this._node = null;
-    }
-    for (const n of this._beatNodes) { try { n.stop(); } catch (_) {} }
-    this._beatNodes = [];
-    this._updateButtonUI('▶ Play');
-    if (this.onEnd) this.onEnd();
-  }
-
-  _updateButtonUI(label) {
-    if (this._btn) this._btn.textContent = label;
-  }
-
-  _start(audioBuffer, markers, viewStart, sampleRate) {
-    this._ctx = new AudioContext();
-    this._node = this._ctx.createBufferSource();
-    this._node.buffer = audioBuffer;
-    this._node.connect(this._ctx.destination);
-
-    const startSample = Math.max(0, Math.floor(viewStart));
-    const offsetSec = startSample / sampleRate;
-    const startTime = this._ctx.currentTime;
-
-    this._node.start(0, offsetSec);
-    this._updateButtonUI('■ Stop');
-
-    for (const m of markers) {
-      const markerSec = m.sample / sampleRate;
-      if (markerSec < offsetSec) continue;
-      const when = startTime + (markerSec - offsetSec);
-      for (const snd of m.sounds) {
-        const buf = this._sounds.get(snd);
-        if (!buf) continue;
-        const n = this._ctx.createBufferSource();
-        n.buffer = buf;
-        n.connect(this._ctx.destination);
-        n.start(when);
-        this._beatNodes.push(n);
-      }
-    }
-
-    this._node.onended = () => {
-      this._node = null;
-      this._beatNodes = [];
-      this._updateButtonUI('▶ Play');
-      if (this.onEnd) this.onEnd();
-    };
-
-    const tick = () => {
-      if (!this._node) return;
-      const sample = startSample + (this._ctx.currentTime - startTime) * sampleRate;
-      if (sample > audioBuffer.length) { this.stop(); return; }
-      if (this.onTick) this.onTick(sample);
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-}
 
 export class WaveformEditor {
   constructor(canvas, opts = {}) {
@@ -152,7 +55,7 @@ export class WaveformEditor {
     this._totalSamples = this._samples.length;
     this._vStart = 0;
     this._vEnd = this._totalSamples;
-    this._peaks = _buildPeaks(this._samples);
+    this._peaks = buildPeaks(this._samples);
     this._playhead = null;
     this._cursor = null;
     this._draw();
@@ -301,7 +204,7 @@ export class WaveformEditor {
     cx.lineWidth = 1;
     for (let x = 0; x < W; x++) {
       const s0 = this._vStart + x * spp, s1 = s0 + spp;
-      const { mn, mx } = _peaksMinMax(this._peaks, this._samples, this._totalSamples, s0, s1);
+      const { mn, mx } = peaksMinMax(this._peaks, this._samples, this._totalSamples, s0, s1);
       cx.moveTo(x + .5, mid - mx * amp);
       cx.lineTo(x + .5, Math.max(mid - mx * amp + 1, mid - mn * amp));
     }
@@ -406,48 +309,4 @@ export class WaveformEditor {
       if (Math.abs(this._s2x(m.sample) - x) <= HIT_PX) return m;
     return null;
   }
-}
-
-function _updateMinMax(mn, mx, value) {
-  if (value < mn) mn = value;
-  if (value > mx) mx = value;
-  return { mn, mx };
-}
-
-function _buildPeaks(samples) {
-  const n = Math.ceil(samples.length / CHUNK);
-  const mins = new Float32Array(n), maxs = new Float32Array(n);
-  for (let i = 0; i < n; i++) {
-    let mn = 0, mx = 0;
-    const a = i * CHUNK, b = Math.min(a + CHUNK, samples.length);
-    for (let j = a; j < b; j++) {
-      const result = _updateMinMax(mn, mx, samples[j]);
-      mn = result.mn; mx = result.mx;
-    }
-    mins[i] = mn; maxs[i] = mx;
-  }
-  return { mins, maxs };
-}
-
-function _peaksMinMax(peaks, samples, totalSamples, s0, s1) {
-  const si = Math.max(0, Math.floor(s0));
-  const ei = Math.min(totalSamples - 1, Math.ceil(s1));
-  if (s1 - s0 >= CHUNK / 2) {
-    const ci = Math.max(0, Math.floor(si / CHUNK));
-    const ce = Math.min(peaks.mins.length - 1, Math.ceil(ei / CHUNK));
-    let mn = 0, mx = 0;
-    for (let c = ci; c <= ce; c++) {
-      const result = _updateMinMax(mn, mx, peaks.mins[c]);
-      mn = result.mn; mx = result.mx;
-      const result2 = _updateMinMax(mn, mx, peaks.maxs[c]);
-      mn = result2.mn; mx = result2.mx;
-    }
-    return { mn, mx };
-  }
-  let mn = samples[si], mx = samples[si];
-  for (let i = si; i <= ei; i++) {
-    const result = _updateMinMax(mn, mx, samples[i]);
-    mn = result.mn; mx = result.mx;
-  }
-  return { mn, mx };
 }

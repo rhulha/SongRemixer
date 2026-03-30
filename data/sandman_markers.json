@@ -20,9 +20,20 @@
     ]
   },
   {
+    "sample": 543797,
+    "sounds": [
+      "hit"
+    ]
+  },
+  {
     "sample": 551883,
     "sounds": [
-      "bass",
+      "bass"
+    ]
+  },
+  {
+    "sample": 557717,
+    "sounds": [
       "hit"
     ]
   },
@@ -33,8 +44,9 @@
     ]
   },
   {
-    "sample": 571894,
+    "sample": 571637,
     "sounds": [
+      "hit",
       "bass"
     ]
   },
@@ -55,8 +67,7 @@
   {
     "sample": 652820,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -68,8 +79,7 @@
   {
     "sample": 680317,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -82,8 +92,7 @@
   {
     "sample": 707625,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -95,8 +104,7 @@
   {
     "sample": 734745,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -109,8 +117,7 @@
   {
     "sample": 761865,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -122,8 +129,7 @@
   {
     "sample": 788985,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -136,8 +142,7 @@
   {
     "sample": 816167,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -149,8 +154,7 @@
   {
     "sample": 843413,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -163,8 +167,7 @@
   {
     "sample": 870096,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -176,8 +179,7 @@
   {
     "sample": 896217,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -190,8 +192,7 @@
   {
     "sample": 922635,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -203,8 +204,7 @@
   {
     "sample": 949350,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -217,8 +217,7 @@
   {
     "sample": 975849,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -230,8 +229,7 @@
   {
     "sample": 1002131,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -244,8 +242,7 @@
   {
     "sample": 1028655,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -257,8 +254,7 @@
   {
     "sample": 1055421,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -271,8 +267,7 @@
   {
     "sample": 1082149,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -284,8 +279,7 @@
   {
     "sample": 1108839,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -298,8 +292,7 @@
   {
     "sample": 1135451,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -311,8 +304,7 @@
   {
     "sample": 1161985,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -325,8 +317,7 @@
   {
     "sample": 1188445,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -338,8 +329,7 @@
   {
     "sample": 1214832,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -352,8 +342,7 @@
   {
     "sample": 1241281,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -365,8 +354,7 @@
   {
     "sample": 1267791,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -404,8 +392,7 @@
   {
     "sample": 1345652,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -417,8 +404,7 @@
   {
     "sample": 1371932,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -431,8 +417,7 @@
   {
     "sample": 1398694,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -444,8 +429,7 @@
   {
     "sample": 1425940,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -458,8 +442,7 @@
   {
     "sample": 1453185,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -471,8 +454,7 @@
   {
     "sample": 1480431,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -485,8 +467,7 @@
   {
     "sample": 1507676,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -498,8 +479,7 @@
   {
     "sample": 1534922,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -512,8 +492,7 @@
   {
     "sample": 1562167,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -525,8 +504,7 @@
   {
     "sample": 1589413,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -539,8 +517,7 @@
   {
     "sample": 1616406,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -552,8 +529,7 @@
   {
     "sample": 1643148,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -566,8 +542,7 @@
   {
     "sample": 1669561,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -579,8 +554,7 @@
   {
     "sample": 1695645,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -593,8 +567,7 @@
   {
     "sample": 1722121,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -606,8 +579,7 @@
   {
     "sample": 1748990,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -620,8 +592,7 @@
   {
     "sample": 1775632,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -633,8 +604,7 @@
   {
     "sample": 1802046,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -647,8 +617,7 @@
   {
     "sample": 1828491,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -660,8 +629,7 @@
   {
     "sample": 1854967,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -699,8 +667,7 @@
   {
     "sample": 1932880,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -712,8 +679,7 @@
   {
     "sample": 1959928,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -776,8 +742,7 @@
   {
     "sample": 2088247,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -789,8 +754,7 @@
   {
     "sample": 2115493,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -803,8 +767,7 @@
   {
     "sample": 2142446,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -816,8 +779,7 @@
   {
     "sample": 2169108,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -830,8 +792,7 @@
   {
     "sample": 2195447,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -843,8 +804,7 @@
   {
     "sample": 2221463,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -857,8 +817,7 @@
   {
     "sample": 2247789,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -870,8 +829,7 @@
   {
     "sample": 2274423,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -909,8 +867,7 @@
   {
     "sample": 2351890,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -922,8 +879,7 @@
   {
     "sample": 2378922,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -936,8 +892,7 @@
   {
     "sample": 2405448,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -949,8 +904,7 @@
   {
     "sample": 2431466,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -963,8 +917,7 @@
   {
     "sample": 2457800,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -976,8 +929,7 @@
   {
     "sample": 2484448,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -990,8 +942,7 @@
   {
     "sample": 2510893,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1003,8 +954,7 @@
   {
     "sample": 2537137,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1017,8 +967,7 @@
   {
     "sample": 2563576,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1030,8 +979,7 @@
   {
     "sample": 2590210,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1044,8 +992,7 @@
   {
     "sample": 2616845,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1057,8 +1004,7 @@
   {
     "sample": 2643479,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1096,8 +1042,7 @@
   {
     "sample": 2719777,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1109,8 +1054,7 @@
   {
     "sample": 2746411,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1123,8 +1067,7 @@
   {
     "sample": 2773046,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1136,8 +1079,7 @@
   {
     "sample": 2799680,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1225,8 +1167,7 @@
   {
     "sample": 2979982,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1238,8 +1179,7 @@
   {
     "sample": 3006616,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1252,8 +1192,7 @@
   {
     "sample": 3033251,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1265,8 +1204,7 @@
   {
     "sample": 3059885,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1329,8 +1267,7 @@
   {
     "sample": 3189501,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1342,8 +1279,7 @@
   {
     "sample": 3215771,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1356,8 +1292,7 @@
   {
     "sample": 3242223,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1369,8 +1304,7 @@
   {
     "sample": 3268857,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1408,8 +1342,7 @@
   {
     "sample": 3402030,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1421,8 +1354,7 @@
   {
     "sample": 3428664,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1435,8 +1367,7 @@
   {
     "sample": 3455299,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1448,8 +1379,7 @@
   {
     "sample": 3481933,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1462,8 +1392,7 @@
   {
     "sample": 3508568,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1475,8 +1404,7 @@
   {
     "sample": 3535202,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1489,8 +1417,7 @@
   {
     "sample": 3561837,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1502,8 +1429,7 @@
   {
     "sample": 3588471,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1541,8 +1467,7 @@
   {
     "sample": 3665887,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1554,8 +1479,7 @@
   {
     "sample": 3692242,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1568,8 +1492,7 @@
   {
     "sample": 3718843,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1581,8 +1504,7 @@
   {
     "sample": 3745689,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1670,8 +1592,7 @@
   {
     "sample": 3926218,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1683,8 +1604,7 @@
   {
     "sample": 3952852,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1747,8 +1667,7 @@
   {
     "sample": 4082293,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1760,8 +1679,7 @@
   {
     "sample": 4108927,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1774,8 +1692,7 @@
   {
     "sample": 4135562,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1787,8 +1704,7 @@
   {
     "sample": 4162196,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1801,8 +1717,7 @@
   {
     "sample": 4188831,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1814,8 +1729,7 @@
   {
     "sample": 4215465,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1828,8 +1742,7 @@
   {
     "sample": 4242100,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1841,8 +1754,7 @@
   {
     "sample": 4268734,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1855,8 +1767,7 @@
   {
     "sample": 4295369,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1868,8 +1779,7 @@
   {
     "sample": 4322003,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1907,8 +1817,7 @@
   {
     "sample": 4759711,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1920,8 +1829,7 @@
   {
     "sample": 4786007,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1959,8 +1867,7 @@
   {
     "sample": 4864385,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -1972,8 +1879,7 @@
   {
     "sample": 4891019,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2036,8 +1942,7 @@
   {
     "sample": 5019507,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2049,8 +1954,7 @@
   {
     "sample": 5046141,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2163,8 +2067,7 @@
   {
     "sample": 5273816,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2176,8 +2079,7 @@
   {
     "sample": 5300450,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2190,8 +2092,7 @@
   {
     "sample": 5326846,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2203,8 +2104,7 @@
   {
     "sample": 5353002,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2292,8 +2192,7 @@
   {
     "sample": 5689064,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2305,8 +2204,7 @@
   {
     "sample": 5715698,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2319,8 +2217,7 @@
   {
     "sample": 5742094,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2332,8 +2229,7 @@
   {
     "sample": 5768250,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2371,8 +2267,7 @@
   {
     "sample": 5845359,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2384,8 +2279,7 @@
   {
     "sample": 5871415,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2498,8 +2392,7 @@
   {
     "sample": 6098350,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2511,8 +2404,7 @@
   {
     "sample": 6124984,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2575,8 +2467,7 @@
   {
     "sample": 6251938,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2588,8 +2479,7 @@
   {
     "sample": 6278342,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2777,8 +2667,7 @@
   {
     "sample": 6907287,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {
@@ -2790,8 +2679,7 @@
   {
     "sample": 6933921,
     "sounds": [
-      "hit",
-      "bass"
+      "hit"
     ]
   },
   {

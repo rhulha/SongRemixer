@@ -21,7 +21,7 @@ def save_markers(path: Path, markers: list[dict]) -> None:
     path.write_text(json.dumps(markers, indent=2) + "\n", encoding="utf-8")
 
 
-def add_midpoint_hits(markers: list[dict]) -> int:
+def add_evenly_spaced_hits(markers: list[dict]) -> int:
     markers.sort(key=lambda m: int(m["sample"]))
 
     sample_to_marker: dict[int, dict] = {}
@@ -38,8 +38,10 @@ def add_midpoint_hits(markers: list[dict]) -> int:
 
         left_sample = int(left["sample"])
         right_sample = int(right["sample"])
-        midpoint = (left_sample + right_sample) // 2
-        hit_samples.add(midpoint)
+        gap = right_sample - left_sample
+        hit_samples.add(left_sample + gap // 4)
+        hit_samples.add(left_sample + gap // 2)
+        hit_samples.add(left_sample + (3 * gap) // 4)
 
     added = 0
     for sample in sorted(hit_samples):
@@ -60,7 +62,7 @@ def add_midpoint_hits(markers: list[dict]) -> int:
 
 def main() -> None:
     markers = load_markers(MARKERS_PATH)
-    added_count = add_midpoint_hits(markers)
+    added_count = add_evenly_spaced_hits(markers)
     save_markers(MARKERS_PATH, markers)
     print(f"Added or updated {added_count} hit markers in {MARKERS_PATH}")
 

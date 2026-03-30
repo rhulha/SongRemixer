@@ -45,8 +45,12 @@ export class AudioPlayer {
     }
     for (const n of this._beatNodes) { try { n.stop(); } catch (_) {} }
     this._beatNodes = [];
-    if (this._btn) this._btn.textContent = '▶ Play';
+    this._updateButtonUI('▶ Play');
     if (this.onEnd) this.onEnd();
+  }
+
+  _updateButtonUI(label) {
+    if (this._btn) this._btn.textContent = label;
   }
 
   _start(audioBuffer, markers, viewStart, sampleRate) {
@@ -60,7 +64,7 @@ export class AudioPlayer {
     const startTime = this._ctx.currentTime;
 
     this._node.start(0, offsetSec);
-    if (this._btn) this._btn.textContent = '■ Stop';
+    this._updateButtonUI('■ Stop');
 
     for (const m of markers) {
       const markerSec = m.sample / sampleRate;
@@ -80,7 +84,7 @@ export class AudioPlayer {
     this._node.onended = () => {
       this._node = null;
       this._beatNodes = [];
-      if (this._btn) this._btn.textContent = '▶ Play';
+      this._updateButtonUI('▶ Play');
       if (this.onEnd) this.onEnd();
     };
 
@@ -181,17 +185,19 @@ export class WaveformEditor {
   deleteSelected() {
     if (this._selectedSet.size === 0) return;
     this._markers = this._markers.filter(m => !this._selectedSet.has(m));
-    this._selectedSet.clear();
-    this._sel = null;
-    if (this.onSelect) this.onSelect(null);
-    if (this.onMarkersChange) this.onMarkersChange();
-    this._draw();
+    this._setSelection(null, true);
   }
 
   deselect() {
-    this._sel = null;
+    this._setSelection(null, false);
+  }
+
+  _setSelection(marker, notifyMarkersChange) {
+    this._sel = marker;
     this._selectedSet.clear();
-    if (this.onSelect) this.onSelect(null);
+    if (marker) this._selectedSet.add(marker);
+    if (this.onSelect) this.onSelect(marker);
+    if (notifyMarkersChange && this.onMarkersChange) this.onMarkersChange();
     this._draw();
   }
 
@@ -200,12 +206,7 @@ export class WaveformEditor {
     const m = { sample: this._cursor, sounds: new Set() };
     this._markers.push(m);
     this._markers.sort((a, b) => a.sample - b.sample);
-    this._selectedSet.clear();
-    this._selectedSet.add(m);
-    this._sel = m;
-    if (this.onSelect) this.onSelect(m);
-    if (this.onMarkersChange) this.onMarkersChange();
-    this._draw();
+    this._setSelection(m, true);
   }
 
   jumpToMarker(m) {
@@ -217,12 +218,8 @@ export class WaveformEditor {
     if (ve > this._totalSamples) { ve = this._totalSamples; vs = ve - range; }
     this._vStart = Math.max(0, vs);
     this._vEnd = Math.min(this._totalSamples, ve);
-    this._selectedSet.clear();
-    this._selectedSet.add(m);
-    this._sel = m;
     this._cursor = m.sample;
-    if (this.onSelect) this.onSelect(m);
-    this._draw();
+    this._setSelection(m, false);
   }
 
   resize() {
@@ -274,6 +271,18 @@ export class WaveformEditor {
     this._sbThumb.style.left = (this._vStart / this._totalSamples) * 100 + '%';
   }
 
+  _drawVerticalLine(sample, color, width) {
+    const x = this._s2x(sample);
+    if (x < 0 || x > this._cv.width) return;
+    this._cx.strokeStyle = color;
+    this._cx.lineWidth = width;
+    this._cx.setLineDash([]);
+    this._cx.beginPath();
+    this._cx.moveTo(x, 0);
+    this._cx.lineTo(x, this._cv.height);
+    this._cx.stroke();
+  }
+
   _s2x(s) { return (s - this._vStart) / (this._vEnd - this._vStart) * this._cv.width; }
   _x2s(x) { return Math.round(this._vStart + (x / this._cv.width) * (this._vEnd - this._vStart)); }
 
@@ -303,23 +312,11 @@ export class WaveformEditor {
     cx.beginPath(); cx.moveTo(0, mid); cx.lineTo(W, mid); cx.stroke();
 
     if (this._cursor !== null) {
-      const cx2 = this._s2x(this._cursor);
-      if (cx2 >= 0 && cx2 <= W) {
-        cx.strokeStyle = '#4af';
-        cx.lineWidth = 1.5;
-        cx.setLineDash([]);
-        cx.beginPath(); cx.moveTo(cx2, 0); cx.lineTo(cx2, H); cx.stroke();
-      }
+      this._drawVerticalLine(this._cursor, '#4af', 1.5);
     }
 
     if (this._playhead !== null) {
-      const px = this._s2x(this._playhead);
-      if (px >= 0 && px <= W) {
-        cx.strokeStyle = '#ffffff';
-        cx.lineWidth = 1.5;
-        cx.setLineDash([]);
-        cx.beginPath(); cx.moveTo(px, 0); cx.lineTo(px, H); cx.stroke();
-      }
+      this._drawVerticalLine(this._playhead, '#ffffff', 1.5);
     }
 
     for (const m of this._markers) {
@@ -332,12 +329,10 @@ export class WaveformEditor {
       cx.beginPath(); cx.moveTo(x, 0); cx.lineTo(x, H); cx.stroke();
       cx.setLineDash([]);
       let dy = 7;
-      for (const snd of this._sounds) {
-        if (m.sounds.has(snd)) {
-          cx.fillStyle = this._colors[snd];
-          cx.beginPath(); cx.arc(x, dy, 4, 0, 6.28); cx.fill();
-          dy += 11;
-        }
+      for (const snd of m.sounds) {
+        cx.fillStyle = this._colors[snd];
+        cx.beginPath(); cx.arc(x, dy, 4, 0, 6.28); cx.fill();
+        dy += 11;
       }
     }
 
@@ -393,17 +388,15 @@ export class WaveformEditor {
           if (!this._sel) this._sel = hit;
         }
       } else {
-        this._selectedSet.clear();
-        this._selectedSet.add(hit);
-        this._sel = hit;
+        this._setSelection(hit, false);
+        return;
       }
       if (this.onSelect) this.onSelect(this._sel);
     } else {
       this._cursor = this._x2s(x);
-      this._selectedSet.clear();
-      this._sel = null;
       if (this.onCursor) this.onCursor(this._cursor);
-      if (this.onSelect) this.onSelect(null);
+      this._setSelection(null, false);
+      return;
     }
     this._draw();
   }
@@ -415,6 +408,12 @@ export class WaveformEditor {
   }
 }
 
+function _updateMinMax(mn, mx, value) {
+  if (value < mn) mn = value;
+  if (value > mx) mx = value;
+  return { mn, mx };
+}
+
 function _buildPeaks(samples) {
   const n = Math.ceil(samples.length / CHUNK);
   const mins = new Float32Array(n), maxs = new Float32Array(n);
@@ -422,8 +421,8 @@ function _buildPeaks(samples) {
     let mn = 0, mx = 0;
     const a = i * CHUNK, b = Math.min(a + CHUNK, samples.length);
     for (let j = a; j < b; j++) {
-      if (samples[j] < mn) mn = samples[j];
-      if (samples[j] > mx) mx = samples[j];
+      const result = _updateMinMax(mn, mx, samples[j]);
+      mn = result.mn; mx = result.mx;
     }
     mins[i] = mn; maxs[i] = mx;
   }
@@ -438,15 +437,17 @@ function _peaksMinMax(peaks, samples, totalSamples, s0, s1) {
     const ce = Math.min(peaks.mins.length - 1, Math.ceil(ei / CHUNK));
     let mn = 0, mx = 0;
     for (let c = ci; c <= ce; c++) {
-      if (peaks.mins[c] < mn) mn = peaks.mins[c];
-      if (peaks.maxs[c] > mx) mx = peaks.maxs[c];
+      const result = _updateMinMax(mn, mx, peaks.mins[c]);
+      mn = result.mn; mx = result.mx;
+      const result2 = _updateMinMax(mn, mx, peaks.maxs[c]);
+      mn = result2.mn; mx = result2.mx;
     }
     return { mn, mx };
   }
-  let mn = 0, mx = 0;
+  let mn = samples[si], mx = samples[si];
   for (let i = si; i <= ei; i++) {
-    if (samples[i] < mn) mn = samples[i];
-    if (samples[i] > mx) mx = samples[i];
+    const result = _updateMinMax(mn, mx, samples[i]);
+    mn = result.mn; mx = result.mx;
   }
   return { mn, mx };
 }

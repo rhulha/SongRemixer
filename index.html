@@ -95,6 +95,8 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 #move-all-wrap { display: none; align-items: center; gap: 6px; color: #666; }
 #move-all-wrap input { cursor: pointer; }
+#drag-markers-wrap { display: flex; align-items: center; gap: 6px; color: #666; margin-left: auto; }
+#drag-markers-wrap input { cursor: pointer; }
 #btn-del { color: #c04040; border-color: #6a2020; }
 #btn-del:hover { background: #2a1010; }
 </style>
@@ -121,7 +123,8 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
   <span id="panel-pos">load a wav to begin</span>
   <span id="panel-sample-wrap">sample <input id="sample-edit" type="number" min="0" step="1"> <span id="panel-time"></span></span>
   <div id="sound-checks"></div>
-  <button id="btn-del" style="display:none; margin-left: auto;">Delete</button>
+  <label id="drag-markers-wrap"><input id="drag-markers" type="checkbox"> drag markers</label>
+  <button id="btn-del" style="display:none;">Delete</button>
 </div>
 <script type="module" src="app/main.js"></script>
 </body>

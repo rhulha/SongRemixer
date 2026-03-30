@@ -50,6 +50,7 @@ export function initApp() {
 
   editor.onMarkersChange = panel.refreshMarkerList;
   editor.onSelect = panel.onSelect;
+  editor.isMarkerDragEnabled = panel.isMarkerDragEnabled;
   editor.isMoveAllEnabled = panel.isMoveAllEnabled;
   editor.onMarkerMoved = panel.onMarkerMoved;
   panel.buildCheckboxes(null);

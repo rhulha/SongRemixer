@@ -28,6 +28,7 @@ export class WaveformEditor {
     this.onCursor = null;
     this.onMarkersChange = null;
     this.onMarkerMoved = null;
+    this.isMarkerDragEnabled = null;
     this.isMoveAllEnabled = null;
     this._bindEvents();
   }
@@ -259,7 +260,8 @@ export class WaveformEditor {
     this._cv.addEventListener('mousedown', e => {
       if (e.button !== 0 || !this._samples) return;
       const hit = this._markerAt(e.offsetX);
-      if (hit && !(e.ctrlKey || e.metaKey)) {
+      const markerDragEnabled = this.isMarkerDragEnabled ? !!this.isMarkerDragEnabled() : false;
+      if (hit && markerDragEnabled && !(e.ctrlKey || e.metaKey)) {
         const moveAll = this.isMoveAllEnabled ? !!this.isMoveAllEnabled() : false;
         const sorted = [...this._markers].sort((a, b) => a.sample - b.sample);
         const idx = sorted.indexOf(hit);

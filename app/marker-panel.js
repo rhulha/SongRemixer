@@ -1,6 +1,10 @@
 export function createMarkerPanelController({ $, editor, sounds, colors }) {
   let currentSel = null;
 
+  function isMarkerDragEnabled() {
+    return !!$('drag-markers').checked;
+  }
+
   function isMoveAllEnabled() {
     return !!$('move-all').checked;
   }
@@ -151,6 +155,7 @@ export function createMarkerPanelController({ $, editor, sounds, colors }) {
     applyMarkerSampleEdit,
     onSampleEditInput,
     onSelect,
+    isMarkerDragEnabled,
     isMoveAllEnabled,
     onMarkerMoved
   };

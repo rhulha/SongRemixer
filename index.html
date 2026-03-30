@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mr. Sandman Beat Editor</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0d0d1a;
+  color: #ccc;
+  font-family: monospace;
+  font-size: 13px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+#toolbar {
+  padding: 6px 10px;
+  background: #141428;
+  border-bottom: 1px solid #252545;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+button {
+  background: #1e1e3a;
+  color: #ccc;
+  border: 1px solid #383868;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 12px;
+}
+button:hover { background: #2a2a50; }
+#sep { width: 1px; background: #2a2a4a; height: 18px; margin: 0 2px; }
+#status { color: #555; margin-left: 8px; }
+#canvas-wrap { flex: 1; overflow: hidden; }
+canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
+#panel {
+  flex-shrink: 0;
+  height: 44px;
+  background: #141428;
+  border-top: 1px solid #252545;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 18px;
+}
+#panel-pos { color: #666; min-width: 220px; }
+#sound-checks { display: flex; gap: 14px; }
+.sc { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.sc input { cursor: pointer; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+#btn-del { margin-left: auto; color: #c04040; border-color: #6a2020; }
+#btn-del:hover { background: #2a1010; }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <button id="btn-wav">Load WAV</button>
+  <div id="sep"></div>
+  <button id="btn-save">Save</button>
+  <button id="btn-load">Load</button>
+  <input id="in-wav"  type="file" accept=".wav"  hidden>
+  <input id="in-json" type="file" accept=".json" hidden>
+  <span id="status"></span>
+</div>
+<div id="canvas-wrap">
+  <canvas id="cv"></canvas>
+</div>
+<div id="panel">
+  <span id="panel-pos">load a wav to begin</span>
+  <div id="sound-checks"></div>
+  <button id="btn-del" style="display:none">Delete</button>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

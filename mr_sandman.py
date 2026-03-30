@@ -2,7 +2,7 @@ import numpy as np
 import scipy.io.wavfile as wav
 import os
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+DATA_DIR = 'data'
 
 
 def read_wav(filename):
@@ -13,8 +13,9 @@ def read_wav(filename):
 
 
 def mix(track, sample, byte_offset, volume=0.6):
-    # Java byte offsets: 1 stereo frame = 4 bytes (2 channels x 2 bytes int16)
-    frame_offset = byte_offset // 4
+    # Java offsets are in int16 units (AudioTimes.eineSekunde = 44100*2 = 88200)
+    # 2 int16 values per stereo frame → divide by 2
+    frame_offset = byte_offset // 2
     n = min(len(sample), len(track) - frame_offset)
     if n <= 0:
         return

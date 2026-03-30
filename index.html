@@ -76,6 +76,18 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
   gap: 18px;
 }
 #panel-pos { color: #666; min-width: 220px; }
+#panel-sample-wrap { display: none; align-items: center; gap: 6px; color: #666; min-width: 220px; }
+#sample-edit {
+  background: #0a0a18;
+  color: #fff;
+  border: 1px solid #383868;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 13px;
+  width: 90px;
+}
+#sample-edit:focus { outline: none; border-color: #6060a0; }
+#panel-time { color: #666; }
 #sound-checks { display: flex; gap: 14px; }
 .sc { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 .sc input { cursor: pointer; }
@@ -103,6 +115,7 @@ canvas { display: block; flex: 1; min-width: 0; height: 100%; cursor: crosshair;
 <div id="sb-track"><div id="sb-thumb"></div></div>
 <div id="panel">
   <span id="panel-pos">load a wav to begin</span>
+  <span id="panel-sample-wrap">sample <input id="sample-edit" type="number" min="0" step="1"> <span id="panel-time"></span></span>
   <div id="sound-checks"></div>
   <button id="btn-del" style="display:none">Delete</button>
 </div>

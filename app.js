@@ -17,6 +17,26 @@ ga('btn-wav',     'click', () => $('in-wav').click());
 ga('btn-play',    'click', () => player.toggle(editor.audioBuffer, editor.markers, editor.cursor ?? 0, editor.sampleRate));
 ga('btn-add',     'click', () => editor.addMarkerAtCursor());
 ga('btn-del',     'click', () => editor.deleteSelected());
+
+let currentSel = null;
+
+function applyMarkerSampleEdit() {
+  if (!currentSel) return;
+  const v = parseInt($('sample-edit').value);
+  if (isNaN(v) || v < 0) { $('sample-edit').value = currentSel.sample; return; }
+  currentSel.sample = v;
+  editor.markers.sort((a, b) => a.sample - b.sample);
+  editor.redraw();
+  refreshMarkerList();
+  $('panel-time').textContent = `(${(v / editor.sampleRate).toFixed(3)}s)`;
+}
+
+ga('sample-edit', 'blur', applyMarkerSampleEdit);
+ga('sample-edit', 'keydown', e => { if (e.key === 'Enter') $('sample-edit').blur(); });
+ga('sample-edit', 'input', () => {
+  const v = parseInt($('sample-edit').value);
+  if (!isNaN(v) && v >= 0) $('panel-time').textContent = `(${(v / editor.sampleRate).toFixed(3)}s)`;
+});
 ga('btn-save',    'click', () => editor.saveMarkers('sandman_markers.json'));
 ga('btn-load',    'click', () => $('in-json').click());
 
@@ -52,10 +72,13 @@ editor.onCursor = sample => {
 };
 
 editor.onSelect = sel => {
+  currentSel = sel;
   const checks = $('sound-checks');
   checks.innerHTML = '';
   $('btn-del').style.display = sel ? 'inline-block' : 'none';
   if (!sel) {
+    $('panel-pos').style.display = '';
+    $('panel-sample-wrap').style.display = 'none';
     if (editor.cursor !== null) {
       $('panel-pos').textContent = `cursor  sample ${editor.cursor}  (${(editor.cursor / editor.sampleRate).toFixed(3)}s)`;
     } else {
@@ -63,7 +86,10 @@ editor.onSelect = sel => {
     }
     return;
   }
-  $('panel-pos').textContent = `sample ${sel.sample}  (${(sel.sample / editor.sampleRate).toFixed(3)}s)`;
+  $('panel-pos').style.display = 'none';
+  $('panel-sample-wrap').style.display = 'flex';
+  $('sample-edit').value = sel.sample;
+  $('panel-time').textContent = `(${(sel.sample / editor.sampleRate).toFixed(3)}s)`;
   for (const snd of SOUNDS) {
     const lbl = document.createElement('label');
     lbl.className = 'sc';

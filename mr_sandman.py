@@ -26,7 +26,7 @@ def mix_bass(track, bass, byte_offset):
     mix(track, bass, byte_offset)
 
 
-def add_beat_loop(track, hit, bass, snear, start_byte, end_byte):
+def add_beat_loop(track, hit, bass, snare, start_byte, end_byte):
     duration = end_byte - start_byte
     tick = duration // 16
 
@@ -34,7 +34,7 @@ def add_beat_loop(track, hit, bass, snear, start_byte, end_byte):
     mix(track, bass, start_byte + tick * 0)
     mix(track, hit,  start_byte + tick * 2)
     mix(track, hit,  start_byte + tick * 4)
-    mix(track, snear,start_byte + tick * 4)
+    mix(track, snare,start_byte + tick * 4)
     mix(track, hit,  start_byte + tick * 6)
     mix(track, bass, start_byte + tick * 7)
     mix(track, hit,  start_byte + tick * 8)
@@ -42,7 +42,7 @@ def add_beat_loop(track, hit, bass, snear, start_byte, end_byte):
     mix(track, hit,  start_byte + tick * 10)
     mix(track, bass, start_byte + tick * 10)
     mix(track, hit,  start_byte + tick * 12)
-    mix(track, snear,start_byte + tick * 12)
+    mix(track, snare,start_byte + tick * 12)
     mix(track, hit,  start_byte + tick * 14)
 
 
@@ -50,7 +50,7 @@ def main():
     sandman = read_wav('sandman.wav')
     bass    = read_wav('bass.wav')
     hit     = read_wav('hit.wav')
-    snear   = read_wav('snear.wav')
+    snare   = read_wav('snare.wav')
 
     track = np.zeros_like(sandman, dtype=np.int32)
 
@@ -66,33 +66,33 @@ def main():
 
     increment = 98077 * 2
 
-    add_beat_loop(track, hit, bass, snear, beat1, beat2)
-    add_beat_loop(track, hit, bass, snear, beat2, beat3)
-    add_beat_loop(track, hit, bass, snear, beat3, beat4)
-    add_beat_loop(track, hit, bass, snear, beat4, beat5)
-    add_beat_loop(track, hit, bass, snear, beat5, beat6)
-    add_beat_loop(track, hit, bass, snear, beat6, beat7)
-    add_beat_loop(track, hit, bass, snear, beat7, beat8)
-    add_beat_loop(track, hit, bass, snear, beat8, beat8 + increment)
+    add_beat_loop(track, hit, bass, snare, beat1, beat2)
+    add_beat_loop(track, hit, bass, snare, beat2, beat3)
+    add_beat_loop(track, hit, bass, snare, beat3, beat4)
+    add_beat_loop(track, hit, bass, snare, beat4, beat5)
+    add_beat_loop(track, hit, bass, snare, beat5, beat6)
+    add_beat_loop(track, hit, bass, snare, beat6, beat7)
+    add_beat_loop(track, hit, bass, snare, beat7, beat8)
+    add_beat_loop(track, hit, bass, snare, beat8, beat8 + increment)
 
     mix_bass(track, bass, 1_249_229 * 2)
 
-    t = 1_448_848 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 1_545_606 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 1_642_622 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 1_740_513 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 1_837_200 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 1_932_624 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
+    t = 1_448_848 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 1_545_606 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 1_642_622 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 1_740_513 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 1_837_200 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 1_932_624 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
 
     mix_bass(track, bass, 2_028_852 * 2)
     mix_bass(track, bass, 2_053_106 * 2)
     mix_bass(track, bass, 2_077_374 * 2)
     mix_bass(track, bass, 2_101_184 * 2)
 
-    t = 2_124_320 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 2_221_709 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    t = 2_318_854 * 2; add_beat_loop(track, hit, bass, snear, t, t + increment)
-    add_beat_loop(track, hit, bass, snear, t, t + increment)
+    t = 2_124_320 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 2_221_709 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    t = 2_318_854 * 2; add_beat_loop(track, hit, bass, snare, t, t + increment)
+    add_beat_loop(track, hit, bass, snare, t, t + increment)
 
     track = np.clip(track, -32768, 32767).astype(np.int16)
 

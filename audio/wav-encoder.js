@@ -6,7 +6,11 @@ export class WavEncoder {
 
     const channels = [];
     for (let c = 0; c < numChannels; c++) {
-      channels.push(audioBuffer.getChannelData(c).slice());
+      const data = audioBuffer.getChannelData(c).slice();
+      for (let i = 0; i < data.length; i++) {
+        data[i] *= 0.65;
+      }
+      channels.push(data);
     }
 
     for (const marker of markers) {
@@ -22,7 +26,7 @@ export class WavEncoder {
         for (let s = 0; s < soundBuf.length && marker.sample + s < length; s++) {
           for (let c = 0; c < numChannels; c++) {
             const soundChan = soundChannels[Math.min(c, soundBuf.numberOfChannels - 1)];
-            channels[c][marker.sample + s] += soundChan[s] * 0.5;
+            channels[c][marker.sample + s] += soundChan[s] * 0.3;
           }
         }
       }

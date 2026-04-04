@@ -36,7 +36,11 @@ export class AudioPlayer {
     this._ctx = new AudioContext();
     this._node = this._ctx.createBufferSource();
     this._node.buffer = audioBuffer;
-    this._node.connect(this._ctx.destination);
+
+    const mainGain = this._ctx.createGain();
+    mainGain.gain.value = 0.65;
+    this._node.connect(mainGain);
+    mainGain.connect(this._ctx.destination);
 
     const startSample = Math.max(0, Math.floor(viewStart));
     const offsetSec = startSample / sampleRate;
@@ -54,7 +58,10 @@ export class AudioPlayer {
         if (!buf) continue;
         const n = this._ctx.createBufferSource();
         n.buffer = buf;
-        n.connect(this._ctx.destination);
+        const percGain = this._ctx.createGain();
+        percGain.gain.value = 0.3;
+        n.connect(percGain);
+        percGain.connect(this._ctx.destination);
         n.start(when);
         this._beatNodes.push(n);
       }

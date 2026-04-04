@@ -41,7 +41,11 @@ export function initApp() {
 
   document.addEventListener('keydown', e => {
     if (document.activeElement === $('sample-edit')) return;
-    if (e.key === ' ') { e.preventDefault(); player.toggle(editor.audioBuffer, editor.markers, editor.cursor ?? 0, editor.sampleRate); }
+    if (e.key === ' ') {
+      e.preventDefault();
+      const startSample = (editor.selected && !player.playing) ? editor.selected.sample : (editor.cursor ?? 0);
+      player.toggle(editor.audioBuffer, editor.markers, startSample, editor.sampleRate);
+    }
     if (e.key === 'Escape') editor.deselect();
     if ((e.key === 'Delete' || e.key === 'Backspace') && editor.selected) editor.deleteSelected();
   });
